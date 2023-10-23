@@ -4,7 +4,12 @@ This lab gives more hands-on time with `git`. You will checkout specific commits
 
 
 
-### Objectives
+Create a local git repository 
+```bash 
+mkdir git_lab
+cd $_
+git init . 
+```
 
 * Create `Hello.java` containing the following
 
