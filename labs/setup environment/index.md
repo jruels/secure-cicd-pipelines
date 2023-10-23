@@ -16,7 +16,11 @@ minikube start \
 
 ## Clone lab files
 
-Before we start setting up the environment, let’s clone the files and set the `TUTORIAL_HOME`environment variable to point to the root directory of the tutorial:
+Before setting up the environment, let’s clone the files we will use during class. 
+
+```bash
+git clone https://github.com/jruels/secure-cicd-pipelines
+```
 
 
 
@@ -54,3 +58,11 @@ Install Tekton into the Kubernetes cluster
 ```bash 
 kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 ```
+
+Create a new namespace for the Tekton lab resources
+
+```bash
+kubectl create namespace tektonlabs &&\
+kubectl config set-context --current --namespace=tektonlabs
+```
+
