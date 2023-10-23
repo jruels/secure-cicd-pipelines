@@ -6,10 +6,6 @@ This lab gives more hands-on time with `git`. You will checkout specific commits
 
 ### Objectives
 
-* In GitLab, create a new private project named `git history`
-
-* Clone the repository to our CloudShell `gitlab` working directory
-
 * Create `Hello.java` containing the following
 
   ```java
