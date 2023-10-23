@@ -24,7 +24,7 @@ Each Task must have the following:
 - **metadata** - Metadata that uniquely identifies the Task resource object, like name.
   - **name** - the unique name by which the task can be referred
 - **spec** - The configuration for a Task resource object.
-- **steps** - One or more sub-tasks that will be executed in the defined order. The step has all the attributes like a [Pod spec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.14/#pod-v1-core)
+- **steps** - One or more sub-tasks that will be executed in the defined order. The step has all the attributes like a Kubernetes pod.
 
 There are also a series of optional fields for better control over the resource:
 
@@ -39,9 +39,7 @@ There are also a series of optional fields for better control over the resource:
 - **workspaces** - The paths to volumes needed by the Task.
 - **volumes** - the task can also mount external volumes using the **volumes** attribute.
 
-|      | The [TaskRun](http://localhost:3000/tekton-tutorial/tasks.html#tekton-task-run) could override the parameter values; if no parameter value is passed then the **default** value will be used. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+NOTE: The TaskRun could override the parameter values; if no parameter value is passed then the **default** value will be used. |
 
 The parameters that were part of the **spec** **params** can be used in the steps using the notation `$(<variable-name>)`.
 
@@ -384,7 +382,7 @@ Name:   echoer
  No taskruns
 ```
 
-|      | If you compare the output above with [source-lister Task](http://localhost:3000/tekton-tutorial/tasks.html#localtask-source-lister), the one big difference with respect to definition is the missing `Namespace` for the `echoer` Task. |
+|      | If you compare the output above with the `source-lister` Task, the one big difference with respect to definition is the missing `Namespace` for the `echoer` Task. |
 | ---- | ------------------------------------------------------------ |
 |      |                                                              |
 
