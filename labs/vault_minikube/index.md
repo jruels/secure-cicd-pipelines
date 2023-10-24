@@ -546,7 +546,7 @@ We've created a web application, published it to DockerHub, and created a Kubern
 2. Deploy the webapp in Kubernetes by applying the file `deployment-01-webapp.yml`.
 
    ```shell-session
-   $ kubectl apply --filename deployment-01-webapp.yml
+   kubectl apply --filename deployment-01-webapp.yml
    ```
 
    
@@ -556,7 +556,7 @@ We've created a web application, published it to DockerHub, and created a Kubern
 3. Get all the pods within the default namespace.
 
    ```shell-session
-   $ kubectl get pods
+   kubectl get pods
    ```
 
    Output:
@@ -583,7 +583,7 @@ We've created a web application, published it to DockerHub, and created a Kubern
 4. In **another terminal**, port forward all requests made to `http://localhost:8080` to the `webapp` pod on port `8080`.
 
    ```shell-session
-   $ kubectl port-forward \
+   kubectl port-forward \
        $(kubectl get pod -l app=webapp -o jsonpath="{.items[0].metadata.name}") \
        8080:8080
    ```
@@ -593,7 +593,7 @@ We've created a web application, published it to DockerHub, and created a Kubern
 5. In the original terminal, perform a `curl` request at `http://localhost:8080`.
 
    ```shell-session
-   $ curl http://localhost:8080
+   curl http://localhost:8080
    password:static-secret username:static-user
    ```
 
@@ -608,29 +608,7 @@ We've created a web application, published it to DockerHub, and created a Kubern
    - retrieves the secrets from `secret/data/webapp/config` path
    - displays the secrets as JSON
 
-## Clean up
-
-First, stop the running local Kubernetes cluster.
-
-```shell-session
-$ minikube stop
-```
-
-
-
-This deactivates Minikube but retains all the pods.
-
-Delete the local Kubernetes cluster.
-
-Be aware that `minikube delete` removes the Minikube deployment, including all pods. Be sure you want everything removed before continuing.
-
-```shell-session
-$ minikube delete
-🔥  Deleting "minikube" in docker ...
-🔥  Deleting container "minikube" ...
-🔥  Removing /Users/mrken/.minikube/machines/minikube ...
-💀  Removed all traces of the "minikube" cluster.
-```
+## Congrats! 
 
 
 
