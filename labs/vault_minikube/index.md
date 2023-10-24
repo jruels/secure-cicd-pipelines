@@ -594,7 +594,6 @@ We've created a web application, published it to DockerHub, and created a Kubern
 
    ```shell-session
    curl http://localhost:8080
-   password:static-secret username:static-user
    ```
 
    
