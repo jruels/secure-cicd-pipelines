@@ -18,7 +18,6 @@ Lab 6: [Getting started with Vault](labs/vault_minikube)
 
 ### Day 3
 
-Lab 4: [Vault Secrets](labs/vault_secrets/)    
-Lab 5: [Vault Policies](labs/vault_policies/)   
-
-​      
+Lab 7: [Vault Secrets](labs/vault_secrets/)    
+Lab 8: [Vault Policies](labs/vault_policies/)   
+Lab 9: [Harness deploy to Kubernetes](labs/harness_cd/)   
