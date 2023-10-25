@@ -16,4 +16,9 @@ Lab 4: [Tekton pipelines](labs/tekton_pipelines/)
 Lab 5: [Tekton Chains](labs/tekton_chains/)   
 Lab 6: [Getting started with Vault](labs/vault_minikube)   
 
-   
+### Day 3
+
+Lab 4: [Vault Secrets](labs/vault_secrets/)    
+Lab 5: [Vault Policies](labs/vault_policies/)   
+
+​      
