@@ -408,7 +408,7 @@ Task 2: Create a task that accepts parameters and uses them in a script.
   * Name: `name`
   * Description: `The name of the person to greet`
   * Default: `World`
-* Echoes "Hello, <name defined in parameter>!"
+* Echoes "Hello, [name defined in parameter]!"
 
 Run the task with the default parameter. Once that has run successfully, run it with a custom parameter. 
 
