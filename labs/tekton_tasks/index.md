@@ -53,6 +53,14 @@ vim tasks/source-lister.yaml
 
 The sources are usually cloned to a standard path called `/workspace/source/<params.contextDir>`, in this example the `contextDir` having `quarkus` as default value.
 
+Create a new namespace for the tasks
+
+```bash
+kubectl create ns tektonlabs
+```
+
+
+
 You can create the Task using the command:
 
 ```bash
@@ -64,7 +72,7 @@ Verify that your task was created:
 Verify task
 
 ```bash
-tkn task ls
+tkn -n tektonlabs task ls
 NAME            AGE
 source-lister   37 seconds ago
 ```
@@ -72,7 +80,7 @@ source-lister   37 seconds ago
 Lets describe the `task` resource:
 
 ```bash
-tkn task describe source-lister
+tkn -n tektonlabs task describe source-lister
 ```
 
 The command shows output similar to:
@@ -130,33 +138,18 @@ Since we have not run the Task yet, the command shows **No taskruns**. You can u
 Since we just have to pass the GitHub repo for the source-lister, run the following command to start the `TaskRun`:
 
 ```bash
-tkn task start source-lister --showlog
+tkn -n tektonlabs task start source-lister --showlog --use-param-defaults
 ```
 
-|      | The command will ask you to confirm any default values, in this task we have many parameters with a default value. The Tekton CLI will ask you confirm them. Be sure press Enter to start the TaskRun after providing inputs to the prompts. When prompted for the name for the workspace, type `output`:`Please give specifications for the workspace: output ? Name for the workspace : output` |
+|      | The command will automatically accept parameters with default values. You will be asked to provide parameters without default values.When prompted for the name for the workspace, type `output`. |
 | ---- | ------------------------------------------------------------ |
 |      |                                                              |
 
-The command should show output like:
+
+
+Use the following output as an example of the values you should pass.
 
 ```bash
-? Value for param `url` of type `string`? (Default is `https://github.com/redhat-scholars/tekton-tutorial-greeter`) https://github.com/redhat-scholars/tekton-tutorial-greeter
-? Value for param `revision` of type `string`? (Default is `master`) master
-? Value for param `refspec` of type `string`? (Default is ``)
-? Value for param `contextDir` of type `string`? (Default is `quarkus`) quarkus
-? Value for param `submodules` of type `string`? (Default is `true`) true
-? Value for param `depth` of type `string`? (Default is `1`) 1
-? Value for param `sslVerify` of type `string`? (Default is `false`) false
-? Value for param `crtFileName` of type `string`? (Default is `ca-bundle.crt`) ca-bundle.crt
-? Value for param `subdirectory` of type `string`? (Default is ``)
-? Value for param `sparseCheckoutDirectories` of type `string`? (Default is ``)
-? Value for param `deleteExisting` of type `string`? (Default is `true`) true
-? Value for param `httpProxy` of type `string`? (Default is ``)
-? Value for param `httpsProxy` of type `string`? (Default is ``)
-? Value for param `noProxy` of type `string`? (Default is ``)
-? Value for param `verbose` of type `string`? (Default is `true`) true
-? Value for param `gitInitImage` of type `string`? (Default is `gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.40.2`) gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.40.2
-? Value for param `userHome` of type `string`? (Default is `/home/git`) /home/git
 Please give specifications for the workspace: output
 ? Name for the workspace : output
 ? Value of the Sub Path :
@@ -213,7 +206,7 @@ While the task is running open a new terminal and run:
 Watch the pods
 
 ```bash
-kubectl get pods -w
+kubectl -n tektonlabs get pods -w
 ```
 
 The command should show an output like:
@@ -262,8 +255,6 @@ Waiting for logs to be available...
 
 The logs are the consolidated logs from all the Task step containers. You can identify the source of the log i.e the step that has generated the logs using the text within the square brackets `[]` of each log line.
 
-e.g.
-
 Logs starting with **[ls-build-sources]** are from the container that is responsible for running the Task step i.e. `ls-build-sources`.
 
 ## Know the workspace directory
@@ -273,6 +264,10 @@ In the example above, there is a log which shows the `git clone` command that cl
 ## Cluster Task
 
 Tasks are by default tied to a namespace i.e their visibility is restricted to the namespace where they were created. E.g. the `source-lister` that we created and ran earlier is tied to tektonlabs.
+
+
+
+Cluster Tasks have been deprecated, but for the purposes of this class we are going to play around with them. Later we will discuss Resolvers, which replace Cluster Tasks. Due to this, you will receive deprecation warnings for the following exercises. It is safe to ignore them.
 
 To check lets create a new namespace called `clustertask-demo`:
 
@@ -300,9 +295,9 @@ The command should fail with following output:
 Error: Task name source-lister does not exist in namespace clustertask-demo
 ```
 
-Let us now create a very simple ClusterTask called echoer as shown in the below listing:
+Review a very simple ClusterTask named `echoer.yaml` as shown in the below listing:
 
-List echoer ClusterTask
+ClusterTask connects.
 
 ```yaml
 apiVersion: tekton.dev/v1beta1
@@ -339,7 +334,7 @@ The comand should show one ClusterTask `echoer`:
 
 ```bash
 NAME     DESCRIPTION   AGE
-echoer                 18 minutes ago
+echoer                 17 seconds ago
 ```
 
 Let us decribe ClusterTask `echoer`:
@@ -353,33 +348,9 @@ The comand should return:
 ```bash
 Name:   echoer
 
-📨 Input Resources
-
- No input resources
-
-📡 Output Resources
-
- No output resources
-
-⚓ Params
-
- No params
-
-📝 Results
-
- No results
-
-📂 Workspaces
-
- No workspaces
-
 🦶 Steps
 
  ∙ unnamed-0
-
-🗂  Taskruns
-
- No taskruns
 ```
 
 |      | If you compare the output above with the `source-lister` Task, the one big difference with respect to definition is the missing `Namespace` for the `echoer` Task. |
@@ -392,7 +363,7 @@ Lets run the task in the current namespace `clustertask-demo`:
 
 ```bash
 tkn clustertask start echoer --showlog
-TaskRun started: echoer-run-75n6g
+TaskRun started: echoer-run-5zcqb
 Waiting for logs to be available...
 [unnamed-0] Meeow!! from Tekton 😺🚀
 ```
@@ -403,7 +374,6 @@ Let us now shift back to `tektonlabs` and run the `echoer` task again:
 
 ```bash
 kubectl config set-context --current --namespace=tektonlabs
-Context "tektonlabs" modified.
 tkn clustertask start echoer --showlog
 ```
 
@@ -415,6 +385,34 @@ The command should produce identical output as shown above.
 - Tasks resources are interacted with using `tkn task` command and its options
 - ClusterTasks are available across the cluster i.e. in any namespace(s) of the cluster
 - ClusterTasks resources are interacted with using `tkn clustertask` command and its options
+
+
+
+## Creating your own tasks
+
+Now use what you've learned to create some custom Tekton Tasks that meet the following requirements.
+
+Task 1: Create a task that echoes the environment variables.
+
+* Name: `env-printer`
+* Echoes "Printing environment details" followed by the system environment variables.
+
+Run the task
+
+
+
+Task 2: Create a task that accepts parameters and uses them in a script.
+
+* Name: `greet-task`
+* Parameter:
+  * Name: `name`
+  * Description: `The name of the person to greet`
+  * Default: `World`
+* Echoes "Hello, <name defined in parameter>!"
+
+Run the task with the default parameter. Once that has run successfully, run it with a custom parameter. 
+
+
 
 ## Congrats
 

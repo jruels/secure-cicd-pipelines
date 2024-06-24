@@ -31,9 +31,9 @@ We need to install some tools used for interacting with Kubernetes and Tekton.
 Start by installing the Tekton CLI `tkn`
 
 ```bash 
-curl -LO https://github.com/tektoncd/cli/releases/download/v0.32.2/tkn_0.32.2_Linux_x86_64.tar.gz 
-tar -zxvf tkn_0.32.2_Linux_x86_64.tar.gz -C /tmp/
-sudo mv /tmp/tkn /usr/local/bin
+curl -LO https://github.com/tektoncd/cli/releases/download/v0.37.0/tkn_0.37.0_Linux_x86_64.tar.gz
+sudo tar xvzf tkn_0.37.0_Linux_x86_64.tar.gz -C /usr/local/bin/ tkn
+rm -rf tkn_0.37.0_Linux_x86_64.tar.gz
 ```
 
 
@@ -46,23 +46,39 @@ tkn version
 
 
 
-Install `kubectl`
+## Install the Tekton Operator
+
+Install the Tekton operator in your Kubernetes cluster
 
 ```bash
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/v0.28.0/install.sh | bash -s v0.28.0
+kubectl create -f https://operatorhub.io/install/tektoncd-operator.yaml
 ```
 
-Install Tekton into the Kubernetes cluster 
 
-```bash 
-kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
-```
 
-Create a new namespace for the Tekton lab resources
+After install, watch your operator come up using next command.
 
 ```bash
-kubectl create namespace tektonlabs &&\
-kubectl config set-context --current --namespace=tektonlabs
+kubectl get csv -n operators
 ```
+
+
+
+Confirm the output is similar to: 
+
+```
+NAME                        DISPLAY             VERSION   REPLACES                    PHASE
+tektoncd-operator.v0.70.0   Tektoncd Operator   0.70.0    tektoncd-operator.v0.69.1   Succeeded
+```
+
+To exit type `ctrl+c`
+
+
+
+## Congrats 
+
+Congratulations! You've set up your lab environment.
+
+
 
