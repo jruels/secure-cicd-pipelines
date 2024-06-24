@@ -181,7 +181,7 @@ cat Hello.java
 Return to the latest version
 
 ```
-git checkout main
+git checkout master
 ```
 
 
@@ -238,9 +238,9 @@ To view all tags, use the `git tag` command
 
 ------
 
-### Checkout main
+### Checkout master
 
-Make sure you are on the latest commit in `main` before proceeding.
+Make sure you are on the latest commit in `master` before proceeding.
 
 ### Change Hello.java
 
@@ -402,7 +402,7 @@ This will pop you into the editor. You can edit the default commit message or le
 
 ```
 $ git revert HEAD --no-edit
-[main a10293f] Revert "Oops, we didn't want this commit"
+[master a10293f] Revert "Oops, we didn't want this commit"
  1 file changed, 1 insertion(+), 1 deletion(-)
 ```
 
@@ -472,7 +472,7 @@ $ git reset --hard v1
 HEAD is now at 1f7ec5e Added a comment
 ```
 
-Our `main` branch now points to the `v1` commit, and the `Oops commit` and the `Revert Oops` commit are no longer in the branch. The `--hard` parameter indicates that the working directory should be updated to be consistent with the new branch head.
+Our `master` branch now points to the `v1` commit, and the `Oops commit` and the `Revert Oops` commit are no longer in the branch. The `--hard` parameter indicates that the working directory should be updated to be consistent with the new branch head.
 
 ### Nothing is Ever Lost
 
@@ -484,7 +484,7 @@ But what happened to the bad commits? It turns out that the commits are still in
 git hist --all
 ```
 
-In our output, we see that the bad commits haven’t disappeared. They are still in the repository. It’s just that they are no longer listed in the main branch. If we hadn’t tagged them, they would still be in the repository, but there would be no way to reference them other than using their hash names. Commits that are unreferenced remain in the repository until the system runs the garbage collection software.
+In our output, we see that the bad commits haven’t disappeared. They are still in the repository. It’s just that they are no longer listed in the master branch. If we hadn’t tagged them, they would still be in the repository, but there would be no way to reference them other than using their hash names. Commits that are unreferenced remain in the repository until the system runs the garbage collection software.
 
 ### Dangers of Reset
 
