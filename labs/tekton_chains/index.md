@@ -285,7 +285,24 @@ cosign version
            echo -n "${image}" | tee "$(results.IMAGE_URL.path)"        
    ```
 
-2. Get your cluster IPs:
+2. Create a [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/), `docker-credentials.yaml` with your credentials:
+
+   ```yaml
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: docker-credentials
+   data:
+     config.json: efuJAmF1...
+   ```
+
+   The value of `config.json` is the base64-encoded `~/.docker/config.json` file. You can get this data with the following command:
+
+   ```bash
+   cat ~/.docker/config.json | base64 -w0
+   ```
+
+3. Get your cluster IPs:
 
    ```bash
    kubectl get service --namespace kube-system
@@ -301,7 +318,7 @@ cosign version
 
    Save your registry IP, in this case `10.101.134.48`, for the next step.
 
-3. Create a file called `pipelinerun.yaml` and add the following:
+4. Create a file called `pipelinerun.yaml` and add the following:
 
    ```yaml
    apiVersion: tekton.dev/v1
@@ -330,7 +347,7 @@ cosign version
 
    Replace `<registry-ip>` with the value from the previous step.
 
-4. Apply the Pipeline to your cluster:
+5. Apply the Pipeline to your cluster:
 
    ```bash
    kubectl apply -f pipeline.yaml
@@ -344,7 +361,7 @@ cosign version
    task.tekton.dev/kaniko created
    ```
 
-5. Run the Pipeline:
+6. Run the Pipeline:
 
    ```bash
    kubectl create -f pipelinerun.yaml
@@ -356,7 +373,7 @@ cosign version
    pipelinerun.tekton.dev/build-push-run-q22b5 created 
    ```
 
-6. Use the PipelineRun name, `build-push-run-q22b5` , to monitor the execution:
+7. Use the PipelineRun name, `build-push-run-q22b5` , to monitor the execution:
 
    ```bash
    tkn pr logs build-push-run-q22b5 -f
