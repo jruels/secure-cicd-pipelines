@@ -13,6 +13,6 @@ Lab 3: [Tekton tasks](labs/tekton_tasks/)
 
 ### Day 2
 
-Lab 4: [Tekton pipelines  
-Lab 5: [Tekton Chains](labs/tekton_chains/)   
-Lab 6: [Getting started with Vault](labs/vault_minikube)   
+Lab 4: [Tekton pipelines](labs/tekton_pipelines/)  
+Lab 5: [Tekton Chains](labs/tekton_chains/)  
+Lab 6: [Getting started with Vault](labs/vault_minikube)  
