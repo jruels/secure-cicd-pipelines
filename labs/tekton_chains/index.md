@@ -29,7 +29,7 @@ This tutorial will guide you through:
 2. Start up minikube with insecure registry enabled:
 
    ```bash
-   minikube start --insecure-registry "10.0.0.0/24"
+   minikube start --memory="3000" --insecure-registry "10.0.0.0/24"
    ```
 
    The process takes a few seconds, you see an output similar to the following, depending on the [minikube driver](https://minikube.sigs.k8s.io/docs/drivers/) that you are using:
@@ -96,7 +96,7 @@ cosign version
 
    ```bash
    kubectl apply --filename \
-   https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+   https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.56.4/release.yaml
    ```
 
 2. Monitor the installation:
@@ -179,6 +179,7 @@ cosign version
          digest: sha1:$(tasks.kaniko-build.results.IMAGE_DIGEST)
      workspaces:
      - name: shared-data
+     - name: docker-credentials
      tasks: 
      - name: dockerfile
        taskRef:
@@ -193,6 +194,8 @@ cosign version
        workspaces:
        - name: source
          workspace: shared-data
+       - name: dockerconfig
+         workspace: docker-credentials
        params:
        - name: IMAGE
          value: $(params.image-reference)
@@ -312,6 +315,9 @@ cosign version
      - name: image-reference
        value: <registry-ip>/tekton-test
      workspaces:
+     - name: docker-credentials
+       secret:
+         secretName: docker-credentials
      - name: shared-data
        volumeClaimTemplate:
          spec:

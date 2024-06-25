@@ -10,6 +10,38 @@ This guide shows you how to:
 
 
 
+## Reset Minikube
+
+Minikube consumes many resources. This leads to the lab failing. To resolve this, we will recreate the Minikube VM and reinstall Tekton.
+
+Delete Minikube VM
+
+```bash
+minikube delete
+```
+
+
+
+One the VM has been deleted, recreate it with the following command
+
+```bash
+minikube start \
+   --memory="3000" --cpus="2" \
+   --disk-size=15g
+```
+
+
+
+## Reinstall Tekton
+
+Run the following command to reinstall Tekton
+
+```bash
+kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.56.4/release.yaml
+```
+
+
+
 ## Docker Hub
 
 This lab requires a container registry to push the image to. The most popular free registry is Docker Hub. 
