@@ -7,7 +7,8 @@ At the end of this chapter, you will be able to :
 - Understand where cloned sources reside i.e., Workspace
 - Create a Task that can build the sources
 - How to run a Task
-- Write custom tasks
+
+Write custom tasks
 
 If you are not in the tutorial chapter directory, navigate to it:
 

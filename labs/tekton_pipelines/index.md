@@ -12,11 +12,11 @@ This guide shows you how to:
 
 ## Docker Hub
 
-This lab requires a container registry to put the image to. The most popular free registry is Docker Hub. 
+This lab requires a container registry to push the image to. The most popular free registry is Docker Hub. 
 
 Create a Docker Hub account. 
 
-In a web browser, navigate to http://hub.docker.com and log in to Docker Hub. Creating a Docker Hub account is free and simple if you do not have one already.
+In a web browser, navigate to [Docker Hub](http://hub.docker.com) and log in. Creating a Docker Hub account is free and simple if you do not have one already.
 
 ## Clone the repository
 
@@ -124,7 +124,7 @@ To build the image, use the [Kaniko](https://hub.tekton.dev/tekton/task/kaniko) 
 
 In most cases, to push the image to a container registry you must provide authentication credentials first.
 
-1. Set up authentication with the Docker credential helper and generate the Docker configuration file, `$HOME/.docker/config.json`, for your registry by logging in and providing your username and password.
+1. Log in and provide your username and password location with the Docker credential helper and generate the Docker configuration file, `$HOME/.docker/config.json,` for your registry.
 
    ```bash
    docker login
@@ -253,18 +253,7 @@ spec:
     value: container.registry.com/sublocation/my_app:version 
 ```
 
-The Docker credentials Kubernetes Secret:
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: docker-credentials
-data:
-  config.json: efuJAmF1...
-```
-
-Use your credentials as the value of the `data` field. 
 
 ## Run your Pipeline
 
