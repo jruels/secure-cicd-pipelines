@@ -267,7 +267,7 @@ Vault manages secrets for your applications, users, and systems. For this demons
 
 ## Set a secret in Vault
 
-The web application that you deploy in the [Launch a web application](https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-raft#launch-a-web-application) section expects Vault to store a username and password at the path `secret/webapp/config`. To create this secret requires you to log in with the root token, enable the key-value secret engine, and store a secret username and password at that defined path.
+The web application that you deploy expects Vault to store a username and password at the path `secret/webapp/config`. To create this secret requires you to log in with the root token, enable the key-value secret engine, and store a secret username and password at that defined path.
 
 Vault generated an initial root token when it was initialized.
 
