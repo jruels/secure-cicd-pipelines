@@ -60,7 +60,7 @@ kubectl create -f https://operatorhub.io/install/tektoncd-operator.yaml
 After install, watch your operator come up using next command.
 
 ```bash
-kubectl get csv -n operators
+kubectl get csv -n operators -w
 ```
 
 
