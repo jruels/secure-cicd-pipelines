@@ -402,7 +402,7 @@ Vault generated an initial root token when it was initialized.
 
 The initial root token is a privileged user that can perform any operation at any path. The web application only requires the ability to read secrets defined at a single path. This application should authenticate and be granted a token with limited access.
 
-We recommend that root tokens be used only for the initial authentication method and policies setup. Afterwards, they should be revoked. This tutorial does not show you how to revoke the root token.
+We recommend that root tokens be used only for the initial authentication method and policies set up. Afterward, they should be revoked. This tutorial does not show you how to revoke the root token.
 
 Vault provides a Kubernetes authentication method that enables clients to authenticate with a Kubernetes Service Account Token.
 
@@ -445,7 +445,7 @@ Vault provides a Kubernetes authentication method that enables clients to authen
 
    The environment variable `KUBERNETES_PORT_443_TCP_ADDR` is defined and references the internal network address of the Kubernetes host.
 
-   For a client to access the secret data defined at `secret/webapp/config`, it requires that the read capability be granted for the path `secret/data/webapp/config`. This is an example of a policy. A policy defines a set of capabilities.
+   For a client to access the secret data defined at `secret/webapp/config`, the read capability must be granted for the path `secret/data/webapp/config`. This is an example of a policy. A policy defines a set of capabilities.
 
 4. Write out the policy named `webapp` that enables the `read` capability for secrets at path `secret/data/webapp/config`.
 
@@ -467,7 +467,7 @@ Vault provides a Kubernetes authentication method that enables clients to authen
 
    Define an auth method role that uses the `webapp` policy. A role binds policies and environment parameters together to create a login for the web application.
 
-5. Create a Kubernetes authentication role named `webapp that connects the Kubernetes service account name and `webapp` policy.
+5. Create a Kubernetes authentication role named `webapp` that connects the Kubernetes service account name and `webapp` policy.
 
    ```shell-session
    vault write auth/kubernetes/role/webapp \
@@ -608,7 +608,3 @@ We've created a web application, published it to DockerHub, and created a Kubern
    - displays the secrets as JSON
 
 ## Congrats! 
-
-
-
-## 
