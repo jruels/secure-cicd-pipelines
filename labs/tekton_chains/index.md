@@ -302,6 +302,14 @@ cosign version
    cat ~/.docker/config.json | base64 -w0
    ```
 
+   Create Secret
+
+   ```bash
+   kubectl apply -f docker-credentials.yaml
+   ```
+
+   
+
 3. Get your cluster IPs:
 
    ```bash
