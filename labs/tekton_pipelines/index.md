@@ -108,7 +108,7 @@ To build the image, use the [Kaniko](https://hub.tekton.dev/tekton/task/kaniko) 
          value: $(params.image-reference)
    ```
 
-   This new Task refers to `kaniko`, which will be installed from the [community hub](https://hub.tekton.dev/). A Task has its own set of `workspaces` and `params` passed down from the parameters and Workspaces defined at the Pipeline level. In this case, the Workspace `source` and the value of `IMAGE`. Check the Kaniko Task documentation](https://hub.tekton.dev/tekton/task/kaniko) for all available options.
+   This new Task refers to `kaniko`, which will be installed from the [community hub](https://hub.tekton.dev/). A Task has its own set of `workspaces` and `params` passed down from the parameters and Workspaces defined at the Pipeline level. In this case, the Workspace `source` and the value of `IMAGE`. Check the [Kaniko Task documentation](https://hub.tekton.dev/tekton/task/kaniko) for all available options.
 
 3. Instantiate the `build-push` Task. Add the value of `image-reference` to the `params` section in `pipelinerun.yaml`:
 
