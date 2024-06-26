@@ -7,22 +7,20 @@ The KV secrets engine v1 does not provide a way to version or roll back secrets.
 Run version 2 of the KV secrets engine, which can retain a configurable number of secret versions. This enables older versions' data to be retrievable in case of unwanted deletion or updates of the data. In addition, its Check-and-Set operations can be used to protect the data from being overwritten unintentionally.
 
 ![key-value versioning](https://developer.hashicorp.com/_next/image?url=https%3A%2F%2Fcontent.hashicorp.com%2Fapi%2Fassets%3Fproduct%3Dtutorials%26version%3Dmain%26asset%3Dpublic%252Fimg%252Fvault%252Fversioned-kv-1.png%26width%3D1056%26height%3D353&w=3840&q=75)
-## Step 1: Enable the KV secrets engine version 2
-```
-kubectl exec vault-0 -- vault kv enable-versioning secret/
-```
 
-Confirm KV engine version 2 is enabled.
-```
+
+
+## Step 1: Check the KV secrets engine version
+
+When the Vault server is started in dev mode, it enables version 2 of the KV secrets engine at the `secret/path`. Verify that KV secrets engine is enabled and is set to version 2.
+
+```bash
 kubectl exec vault-0 -- vault secrets list -detailed
-
-Path          Type         Accessor           ...   Options           Description
-----          ----         --------                 -------           -----------
-cubbyhole/    cubbyhole    cubbyhole_9d52aeac ...   map[]             per-token private secret storage
-identity/     identity     identity_acea5ba9  ...   map[]             identity store
-secret/       kv           kv_2226b7d3        ...   map[version:2]    key/value secret storage
-...
 ```
+
+Notice under the **Options** header it says `map[version:2] `
+
+
 
 ## Step 2: Write secrets
 To understand how the versioning works, let's write some test data.
@@ -42,7 +40,7 @@ version          1
 The secret stores metadata along with the secret data. The version is an auto-incrementing number that starts at `1`.
 
 
-Create a secret at the same path `secret/customer/acme` but with different secret data.
+Create a secret at the same path `secret/customer/acme`, but with different secret data.
 ```
 kubectl exec vault-0 -- vault kv put secret/customer/acme name="ACME Inc." contact_email="john.smith@acme.com"
 
@@ -77,12 +75,44 @@ name             ACME Inc.
 
 The output displays the second secret. Creating a secret at the same path replaces the existing data; fields are not merged together. The secret data stored in earlier versions is still accessible but it is no longer returned by default.
 
-Patch the secret defined at the path `secret/customer/acme` with a new `contact_email`.
+Update the `contact_email` value to `admin@acme.com` (current value is `john.smith@acme.com`).
 ```
 kubectl exec vault-0 -- vault kv patch secret/customer/acme contact_email="admin@acme.com"
 ```
 
-The patch command merges the fields within the secret data.
+While `vault kv put` fully replaces the current version of the secret; therefore, you need to send the entire set of data including the values that remain the same. To partially update the current version of the secret, you can use `vault kv patch` command instead.
+
+**Use case:** Think of an application that does not have read permission, but captures partial data updates. The `vault kv patch` command allows the application to send only the changing values to Vault.
+
+The patch command creates a new version of the secret which merges the fields within the secret data.
+
+Read the secret at `secret/customer/acme` to verify the change.
+
+```bash
+kubectl exec vault-0 -- vault kv get secret/customer/acme
+
+====== Secret Path ======
+secret/data/customer/acme
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2024-06-26T16:11:49.948320209Z
+custom_metadata    <nil>
+deletion_time      n/a
+destroyed          false
+version            4
+
+======== Data ========
+Key              Value
+---              -----
+contact_email    admin@acme.com
+name             ACME Inc.
+```
+
+
+
+
 
 ## Step 3: Retrieve a specific version of secret
 You may run into a situation where you need to view the secret before an update.
