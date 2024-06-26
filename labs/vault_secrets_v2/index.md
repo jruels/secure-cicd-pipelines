@@ -261,7 +261,7 @@ kubectl exec vault-0 -- vault kv delete -versions="4,5" secret/customer/acme
 
 Get the metadata of the secret defined at the path `secret/customer/acme`.
 ```
-vault kv metadata get secret/customer/acme
+kubectl exec vault-0 -- vault kv metadata get secret/customer/acme
 
 ====== Version 4 ======
 Key              Value
@@ -401,7 +401,7 @@ The v2 of KV secrets engine supports a Check-And-Set operation to prevent uninte
 
 Display the secrets engine configuration settings.
 ```
- kubectl exec vault-0 -- vault read secret/config
+kubectl exec vault-0 -- vault read secret/config
 
 Key             Value
 ---             -----
